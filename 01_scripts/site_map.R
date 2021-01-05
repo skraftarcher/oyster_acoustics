@@ -23,7 +23,7 @@ ggplot()+
 
 # try with google base map
 
-register_google(key="AIzaSyA3ghxCBCFWYKdXxRHwp81T4PjtRPmaNI0")
+
 
 la.gg<-get_map(location=c(-90.66753,29.255),source="google",maptype="satellite",crop=FALSE,zoom=16)
 
