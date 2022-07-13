@@ -1,6 +1,11 @@
 # History files
 .Rhistory
 .Rapp.history
+/figures/
+/odata/
+/wdata/
+/PAM-R/
+/Field_info/
 
 /odata/
 /wdata/
