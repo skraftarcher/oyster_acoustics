@@ -7,6 +7,7 @@ source("scripts/download_community-EX.R")
 
 lp("tidyverse")
 lp("vegan")
+lp("readxl")
 
 # organize data
 
@@ -55,3 +56,37 @@ ls22env<-left_join(ls22env,ls22sound)%>%
   mutate(abund_OysToadfish=ifelse(is.na(abund_OysToadfish),0,abund_OysToadfish),
          dwbio_OysToadfish=ifelse(is.na(dwbio_OysToadfish),0,dwbio_OysToadfish))
 
+#bring in calc data
+
+cls22<-read_xlsx("odata/TNC_CL_tray_databse.xlsx",sheet="raw_data")%>%
+  filter(collection.date>"2022-06-01")%>%
+  filter(!is.na(combined.weight.g))%>%
+  filter(species.code!="NA")%>%
+  select(Site=site, plot, species.code, combined.weight.g)%>%
+  distinct()%>%
+  mutate(combined.weight.g=as.numeric(combined.weight.g), 
+         Project="TNC")%>%
+  group_by(Project, Site, species.code)%>%
+  summarize(totwt=sum(combined.weight.g))%>%
+  pivot_wider(names_from=species.code, values_from=totwt, values_fill=0)
+
+
+cls22env<-cls22[,1:2]  
+
+cls22com<-cls22[,-1:-2]
+
+# calculate species richness
+cls22env$sprich<-specnumber(cls22com)
+
+# calculate diversity
+cls22env$spdiv<-diversity(cls22com)
+
+cls22env$abund_OysToadfish<-0
+cls22env$dwbio_OysToadfish<-0
+
+#create biodiversity dataset
+
+bio22<-bind_rows(ls22env, cls22env)
+
+#saving file
+write.csv(bio22, "wdata/summarized_biodiversity.csv", row.names = FALSE)
