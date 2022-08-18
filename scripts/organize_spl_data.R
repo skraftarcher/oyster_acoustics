@@ -17,12 +17,16 @@ bbspl<-bind_rows(cs_5674_bb2,
                                         tz="America/Chicago")),
                  l_5680_bb2%>%
                    filter(dt >= ymd_hms("2022-07-09 08:00:00",
-                                        tz="America/Chicago")))%>%
+                                        tz="America/Chicago")),
+                 l_5674_bba2,
+                 l_5678_bba2,
+                 l_5679_bba2,
+                 l_5680_bba2)%>%
     rename(bbspl=spl)
 
 # organize Site-level dataset
 bbspl.Site<-bbspl%>%
-  group_by(basin,Site,tray)%>%
+  group_by(basin,season,Site,tray)%>%
   summarize(bbsplvar=var(bbspl),
             bbsdspl=sd(bbspl),
             bbrmsspl=rms(bbspl),
@@ -52,12 +56,16 @@ lowspl<-bind_rows(cs_5674_low2,
                                         tz="America/Chicago")),
                  l_5680_low2%>%
                    filter(dt >= ymd_hms("2022-07-09 08:00:00",
-                                        tz="America/Chicago")))%>%
+                                        tz="America/Chicago")),
+                 l_5674_lowa2,
+                 l_5678_lowa2,
+                 l_5679_lowa2,
+                 l_5680_lowa2)%>%
   rename(lowspl=spl)
 
 # organize Site-level dataset
 lowspl.Site<-lowspl%>%
-  group_by(basin,Site,tray)%>%
+  group_by(basin,season,Site,tray)%>%
   summarize(lowsplvar=var(lowspl),
             lowsdspl=sd(lowspl),
             lowrmsspl=rms(lowspl),

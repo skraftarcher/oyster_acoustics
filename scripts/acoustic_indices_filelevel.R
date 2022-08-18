@@ -38,10 +38,10 @@ f4<-"D:/LUM_Sum_2022/LUM_Sum_22_5674"
 f5<-"D:/LUM_Sum_2022/LUM_Sum_22_5678"
 f6<-"D:/LUM_Sum_2022/LUM_Sum_22_5680"
 
-calc5674<-get.indices(folder=f1)
-calc5678<-get.indices(folder=f2)
-calc5680<-get.indices(folder=f3)
-lum5674<-get.indices(folder=f4)
-lum5678<-get.indices(folder=f5)
-lum5680<-get.indices(folder=f6)
+write.csv(get.indices(folder=f1),"wdata/calc5674_indices.csv",row.names = FALSE)
+write.csv(get.indices(folder=f2),"wdata/calc5678_indices.csv",row.names = FALSE)
+write.csv(get.indices(folder=f3),"wdata/calc5680_indices.csv",row.names = FALSE)
+write.csv(get.indices(folder=f4),"wdata/lum5674_indices.csv",row.names = FALSE)
+write.csv(get.indices(folder=f5),"wdata/lum5678_indices.csv",row.names = FALSE)
+write.csv(get.indices(folder=f6),"wdata/lum5680_indices.csv",row.names = FALSE)
 

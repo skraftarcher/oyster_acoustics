@@ -19,6 +19,10 @@ cs_5680_bb<-read_rds("odata/calc_sum_22_5680_broadband_spl.rds")
 l_5674_bb<-read_rds("odata/lum_sum_22_5674_broadband_spl.rds")
 l_5678_bb<-read_rds("odata/lum_sum_22_5678_broadband_spl.rds")
 l_5680_bb<-read_rds("odata/lum_sum_22_5680_broadband_spl.rds")
+l_5674_bba<-read_rds("odata/lum_spr_22_5674_broadband_spl.rds")
+l_5678_bba<-read_rds("odata/lum_spr_22_5678_broadband_spl.rds")
+l_5680_bba<-read_rds("odata/lum_spr_22_5680_broadband_spl.rds")
+l_5679_bba<-read_rds("odata/lum_spr_22_5679_broadband_spl.rds")
 
 
 # visualize calcasieu site control (aka mud)
@@ -34,7 +38,7 @@ cs_5678_bb2<-as.data.frame(cs_5678_bb[-1,])%>%
          basin="Calcasieu",
          Project="TNC",
          Site="C",
-         tray=3)
+         season = "summer", tray=3)
 
 cs_5678_bbsum<-cs_5678_bb2%>%
   group_by(d,hr)%>%
@@ -63,7 +67,7 @@ cs_5674_bb2<-as.data.frame(cs_5674_bb[-1,])%>%
          basin="Calcasieu",
          Project="TNC",
          Site="17",
-         tray=3)
+         season = "summer", tray=3)
 
 cs_5674_bbsum<-cs_5674_bb2%>%
   group_by(d,hr)%>%
@@ -92,7 +96,7 @@ cs_5680_bb2<-as.data.frame(cs_5680_bb[-1,])%>%
          basin="Calcasieu",
          Project="TNC",
          Site="21",
-         tray=3)
+         season = "summer", tray=3)
 
 cs_5680_bbsum<-cs_5680_bb2%>%
   group_by(d,hr)%>%
@@ -125,7 +129,7 @@ l_5674_bb2<-as.data.frame(l_5674_bb[-1,])%>%
          basin="Terrebonne",
          Project="OH",
          Site="M",
-         tray=4)
+         season = "summer", tray=4)
 
 l_5674_bbsum<-l_5674_bb2%>%
   group_by(d,hr)%>%
@@ -154,7 +158,7 @@ l_5678_bb2<-as.data.frame(l_5678_bb[-1,])%>%
          basin="Terrebonne",
          Project="OH",
          Site="4",
-         tray=4)
+         season = "summer", tray=4)
 
 l_5678_bbsum<-l_5678_bb2%>%
   group_by(d,hr)%>%
@@ -183,7 +187,7 @@ l_5680_bb2<-as.data.frame(l_5680_bb[-1,])%>%
          basin="Terrebonne",
          Project="OH",
          Site="2",
-         tray=4)
+         season = "summer", tray=4)
 
 l_5680_bbsum<-l_5680_bb2%>%
   group_by(d,hr)%>%
@@ -201,3 +205,97 @@ l_5680_bbsum<-l_5680_bb2%>%
 
 # all lumcon sites
 lc/loh4/loh2
+
+
+# lumcon spring data
+# visualize lumcon OH1 spring 
+l_5678_bba2<-as.data.frame(l_5678_bba[-1,])%>%
+  rename(dt=V1,spl=V2)%>%
+  mutate(dt=as.POSIXct(dt,origin = "1970-01-01",tz="America/Chicago"),
+         d=day(dt),
+         yr=year(dt),
+         m=month(dt),
+         hr=hour(dt),
+         mins=minute(dt),
+         sec=second(dt),
+         basin="Terrebonne",
+         Project="OH",
+         Site="1",
+         season = "spring",
+         tray=4)
+
+l_5678_bbasum<-l_5678_bba2%>%
+  group_by(d,hr)%>%
+  summarize(mspl=mean(spl),
+            sdspl=sd(spl),
+            rmsspl=rms(spl),
+            medspl=median(spl))
+
+# visualize lumcon OH2 spring 
+l_5680_bba2<-as.data.frame(l_5680_bba[-1,])%>%
+  rename(dt=V1,spl=V2)%>%
+  mutate(dt=as.POSIXct(dt,origin = "1970-01-01",tz="America/Chicago"),
+         d=day(dt),
+         yr=year(dt),
+         m=month(dt),
+         hr=hour(dt),
+         mins=minute(dt),
+         sec=second(dt),
+         basin="Terrebonne",
+         Project="OH",
+         Site="2",
+         season = "spring",
+         tray=4)
+
+l_5680_bbasum<-l_5680_bba2%>%
+  group_by(d,hr)%>%
+  summarize(mspl=mean(spl),
+            sdspl=sd(spl),
+            rmsspl=rms(spl),
+            medspl=median(spl))
+
+# visualize lumcon OH4 spring 
+l_5674_bba2<-as.data.frame(l_5674_bba[-1,])%>%
+  rename(dt=V1,spl=V2)%>%
+  mutate(dt=as.POSIXct(dt,origin = "1970-01-01",tz="America/Chicago"),
+         d=day(dt),
+         yr=year(dt),
+         m=month(dt),
+         hr=hour(dt),
+         mins=minute(dt),
+         sec=second(dt),
+         basin="Terrebonne",
+         Project="OH",
+         Site="4",
+         season = "spring",
+         tray=4)
+
+l_5674_bbasum<-l_5674_bba2%>%
+  group_by(d,hr)%>%
+  summarize(mspl=mean(spl),
+            sdspl=sd(spl),
+            rmsspl=rms(spl),
+            medspl=median(spl))
+
+# visualize lumcon OH1 spring 
+l_5679_bba2<-as.data.frame(l_5679_bba[-1,])%>%
+  rename(dt=V1,spl=V2)%>%
+  mutate(dt=as.POSIXct(dt,origin = "1970-01-01",tz="America/Chicago"),
+         d=day(dt),
+         yr=year(dt),
+         m=month(dt),
+         hr=hour(dt),
+         mins=minute(dt),
+         sec=second(dt),
+         basin="Terrebonne",
+         Project="OH",
+         Site="5",
+         season = "spring",
+         tray=4)
+
+l_5679_bbasum<-l_5679_bba2%>%
+  group_by(d,hr)%>%
+  summarize(mspl=mean(spl),
+            sdspl=sd(spl),
+            rmsspl=rms(spl),
+            medspl=median(spl))

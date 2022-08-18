@@ -1,7 +1,7 @@
 # This script starts data processing for the study looking at 
 # acoustic signals of biodiversity on oyster reefs 
 # @knitr loadpackages
-# First load functions and packages
+# First load functions and packages ----
 source("scripts/install_packages_function.R")
 
 lp("tidyverse")
@@ -25,14 +25,14 @@ source('PAM-R/Viewer.R')
 # file_prefix <- "5678"
 # calib_value <- -176.5
 # 
-# file_prefix <- "5680"
-# calib_value <- -176.4
+ # file_prefix <- "5680"
+ # calib_value <- -176.4
 # 
 # file_prefix <- "5674"
 # calib_value <- -176.6
 # 
-# file_prefix <- "5679"
-# calib_value <- -176.8
+file_prefix <- "5679"
+calib_value <- -176.8
 
 
 ## averaging across time produces more reliable measures of random signals such as sound levels in a habitat
@@ -40,16 +40,16 @@ source('PAM-R/Viewer.R')
 set_welch <- 120 # 1 min time resolution
 
 # FOR BROADBAND
-set_lcut <- 20 # seems to be the extent of low band in data
-set_hcut <- "none"
+# set_lcut <- 20 # seems to be the extent of low band in data
+# set_hcut <- "none"
 
 ## low band
-#set_lcut <- 20 # seems to be the extent of low band in data
+# set_lcut <- 20 # seems to be the extent of low band in data
 #set_hcut <- 2000 # high frequency cut off on Hz
 
 ## high band
-#set_lcut <- 6000 # seems to be the extent of low band in data
-#set_hcut <- 24000 # high frequency cut off on Hz
+set_lcut <- 1000 # seems to be the extent of low band in data
+set_hcut <- 10000 # high frequency cut off on Hz
 
 ## boat band
 # set_lcut <- 200 # seems to be the extent of low band in data
@@ -65,13 +65,10 @@ PAMMeta(
   ctype = "EE",# type of calibration, for soundtraps it is end to end
   Si = calib_value,# calibration value from the ocean instruments site
   lcut = set_lcut,# low frequency cut off on Hz
-  # hcut = 24000,# high frequency cut off on Hz
+  hcut = set_hcut,# high frequency cut off on Hz
   welch = set_welch,# assuming default of 50% overlap, this is the # seconds x2
   plottype = "none",# tells it whether or not to plot the output
   timestring = paste0(file_prefix, ".%y%m%d%H%M%S.wav")
 )
-
-
-
 
 

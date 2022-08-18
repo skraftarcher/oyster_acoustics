@@ -10,7 +10,43 @@ lp("vegan")
 lp("readxl")
 
 # organize data
+#spring 2022
+lspr22b<-lumcomspr22%>%
+  filter(Site %in% c(1,2,4,5))%>%
+  mutate(dwbio=as.numeric(Dry.Weight..g.)-Weigh.Boat..g.,
+         dwbio=ifelse(dwbio<0,0.01,dwbio))%>%
+  group_by(Project,Site,Taxa.ID)%>%
+  summarize(dwbio=sum(dwbio,na.rm =TRUE))%>%
+  pivot_wider(names_from = Taxa.ID,values_from = dwbio,values_fill = 0)
 
+
+lspr22env<-lspr22b[,1:2]  
+
+lspr22com<-lspr22b[,-1:-2]
+
+# add season
+lspr22env$season<-"spring"
+# calculate species richness
+lspr22env$sprich<-specnumber(lspr22com)
+
+# calculate diversity
+lspr22env$spdiv<-diversity(lspr22com)
+
+
+# pull out snapping shrimp and toadfish abundances
+
+lspr22sound<-lumcomspr22%>%
+  filter(Taxa.ID %in% c("shmp-2","fsh-1"))%>%
+  filter(Site %in% c(1,2,4,5))
+# there are no snapping shrimp or oyster toad fish
+
+# join the abundance of sound producing taxa back on to summary data for lumcon
+lspr22env<-lspr22env%>%
+  mutate(abund_OysToadfish=0,
+         dwbio_OysToadfish=0)
+
+
+#summer 2022
 ls22b<-lumcoms22%>%
   filter(Method=="Tray")%>%
   filter(Site %in% c("4","2","M"))%>%
@@ -25,6 +61,8 @@ ls22env<-ls22b[,1:2]
 
 ls22com<-ls22b[,-1:-2]
 
+# add season
+ls22env$season<-"summer"
 # calculate species richness
 ls22env$sprich<-specnumber(ls22com)
 
@@ -75,6 +113,8 @@ cls22env<-cls22[,1:2]
 
 cls22com<-cls22[,-1:-2]
 
+# add season
+cls22env$season<-"summer"
 # calculate species richness
 cls22env$sprich<-specnumber(cls22com)
 
@@ -85,8 +125,8 @@ cls22env$abund_OysToadfish<-0
 cls22env$dwbio_OysToadfish<-0
 
 #create biodiversity dataset
-
-bio22<-bind_rows(ls22env, cls22env)
+lspr22env$Site<-as.character(lspr22env$Site)
+bio22<-bind_rows(lspr22env,ls22env, cls22env)
 
 #saving file
 write.csv(bio22, "wdata/summarized_biodiversity.csv", row.names = FALSE)
