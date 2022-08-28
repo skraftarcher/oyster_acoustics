@@ -36,6 +36,16 @@ ggplot(data=biospl)+
   # geom_point(aes(x=sprich,y=lowmedspl,color=basin,shape=season),size=5)+
   # geom_smooth(aes(x=sprich,y=lowmedspl),method="lm")
 
+ggplot(data=biospl)+
+  # geom_point(aes(x=abund,y=lowrmsspl,color=basin,shape=season),size=5)+
+  # geom_smooth(aes(x=abund,y=lowrmsspl),method="lm")
+   # geom_point(aes(x=abund,y=bbrmsspl,color=basin,shape=season),size=5)+
+   # geom_smooth(aes(x=abund,y=bbrmsspl),method="lm")
+  # geom_point(aes(x=abund,y=bbmedspl,color=basin,shape=season),size=5)+
+  # geom_smooth(aes(x=abund,y=bbmedspl),method="lm")
+geom_point(aes(x=abund,y=lowmedspl,color=basin,shape=season),size=5)+
+geom_smooth(aes(x=abund,y=lowmedspl),method="lm")
+
 
 #Acoustic indices plots
 ggplot(data=biospl)+
