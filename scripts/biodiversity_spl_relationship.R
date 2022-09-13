@@ -17,22 +17,35 @@ biospl<-left_join(biod, spl)%>%
   mutate(stype=case_when(
     Site%in% c("C","M")~"Control",
     !Site%in% c("C","M")~ "Reef"))
+theme_set(theme_bw()+theme(panel.grid = element_blank()))
 
+spllab<-expression( )
 #plots
-ggplot(data=biospl)+
-  #geom_point(aes(x=spdiv,y=bbrmsspl, color=basin, shape=season), size=5)
-  geom_point(aes(x=spdiv,y=lowrmsspl, color=basin, shape=stype), size=5)
-  #geom_point(aes(x=spdiv,y=bbsdspl, color=basin, shape=stype), size=5)
-  #geom_point(aes(x=spdiv,y=bbminspl, color=basin, shape=season), size=5)
-  #geom_point(aes(x=spdiv,y=bbmaxspl, color=basin, shape=stype), size=5)
+(splp<-ggplot(data=biospl)+
+  geom_point(aes(y=spdiv,x=bbrmsspl, color=basin, shape=stype), size=5)+
+  geom_smooth(aes(y=spdiv,x=bbrmsspl),method="lm")+
+  ylab("Species Diversity")+
+  xlab("Broadband Sound Pressure level (dB re 1 μPa)")+
+  scale_color_viridis_d(end=.8,begin=.2,name="Control")+
+  scale_shape_manual(name="Site type",values=c(17,19))#+
+  # geom_point(aes(y=spdiv,x=lowrmsspl, color=basin, shape=stype), size=5)+
+  # geom_smooth(aes(y=spdiv,x=lowrmsspl),method="lm")
+  #geom_point(aes(y=spdiv,x=bbsdspl, color=basin, shape=stype), size=5)
+  #geom_point(aes(y=spdiv,x=bbminspl, color=basin, shape=season), size=5)
+  #geom_point(aes(y=spdiv,x=bbmaxspl, color=basin, shape=stype), size=5)
+)
 
-ggplot(data=biospl)+
+(splrp<-ggplot(data=biospl)+
   #geom_point(aes(x=sprich,y=lowrmsspl,color=basin,shape=season),size=5)+
   #geom_smooth(aes(x=sprich,y=lowrmsspl),method="lm")
-  #  geom_point(aes(x=sprich,y=bbrmsspl,color=basin,shape=season),size=5)+
-  #  geom_smooth(aes(x=sprich,y=bbrmsspl),method="lm")
-  geom_point(aes(x=sprich,y=bbmedspl,color=basin,shape=season),size=5)+
-  geom_smooth(aes(x=sprich,y=bbmedspl),method="lm")
+   geom_point(aes(y=sprich,x=bbrmsspl,color=basin,shape=stype),size=5)+
+   geom_smooth(aes(y=sprich,x=bbrmsspl),method="lm")+
+    ylab("Species Richness")+
+    xlab("Broadband Sound Pressure level (dB re 1 μPa)")+
+    scale_color_viridis_d(end=.8,begin=.2,name="Control")+
+    scale_shape_manual(name="Site type",values=c(17,19)))
+  # geom_point(aes(y=sprich,x=bbmedspl,color=basin,shape=season),size=5)+
+  # geom_smooth(aes(y=sprich,x=bbmedspl),method="lm")
   # geom_point(aes(x=sprich,y=lowmedspl,color=basin,shape=season),size=5)+
   # geom_smooth(aes(x=sprich,y=lowmedspl),method="lm")
 
